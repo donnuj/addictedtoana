@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nome da Modelo | Portfolio</title>
+  <meta name="description" content="Portfolio oficial de Nome da Modelo. Ensaios, editoriais e fotos exclusivas à venda." />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Ícones -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="top">
+    <div class="container header-inner">
+      <a class="logo" href="#top">Nome da Modelo</a>
+
+      <nav class="nav">
+        <button class="nav-toggle" aria-label="Abrir menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <ul class="nav-list">
+          <li><a href="#portfolio"><i class="fa-regular fa-images"></i><span>Portfolio</span></a></li>
+          <li><a href="#packs"><i class="fa-solid fa-bag-shopping"></i><span>Pacotes</span></a></li>
+          <li><a href="#about"><i class="fa-regular fa-user"></i><span>Sobre</span></a></li>
+          <li><a href="#contact"><i class="fa-regular fa-envelope"></i><span>Contato</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="header-social">
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://tiktok.com" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://wa.me/55SEUNUMERO" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg" style="background-image:url('assets/img/hero.jpg')"></div>
+    <div class="container hero-content">
+      <p class="hero-eyebrow">Portfolio Oficial</p>
+      <h1>Nome da Modelo</h1>
+      <p class="hero-sub">Ensaios editoriais, lifestyle e conteúdo exclusivo.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#portfolio">Ver fotos</a>
+        <a class="btn btn-ghost" href="#packs">Comprar exclusivas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section class="section" id="portfolio">
+    <div class="container">
+      <div class="section-head">
+        <h2>Portfolio</h2>
+        <p>Seleções recentes separadas por estilo. Clique para ampliar.</p>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filters" role="tablist" aria-label="Filtros do portfolio">
+        <button class="filter-btn active" data-filter="all">Tudo</button>
+        <button class="filter-btn" data-filter="editorial">Editorial</button>
+        <button class="filter-btn" data-filter="beauty">Beauty</button>
+        <button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
+        <button class="filter-btn" data-filter="bts">Bastidores</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid" id="gallery">
+        <figure class="card" data-category="editorial">
+          <img loading="lazy" src="assets/img/p1.jpg" alt="Editorial 01">
+          <figcaption>Editorial 01</figcaption>
+        </figure>
+
+        <figure class="card" data-category="beauty">
+          <img loading="lazy" src="assets/img/p2.jpg" alt="Beauty 01">
+          <figcaption>Beauty 01</figcaption>
+        </figure>
+
+        <figure class="card" data-category="lifestyle">
+          <img loading="lazy" src="assets/img/p3.jpg" alt="Lifestyle 01">
+          <figcaption>Lifestyle 01</figcaption>
+        </figure>
+
+        <figure class="card" data-category="editorial">
+          <img loading="lazy" src="assets/img/p4.jpg" alt="Editorial 02">
+          <figcaption>Editorial 02</figcaption>
+        </figure>
+
+        <figure class="card" data-category="bts">
+          <img loading="lazy" src="assets/img/p5.jpg" alt="Bastidores 01">
+          <figcaption>Bastidores 01</figcaption>
+        </figure>
+
+        <figure class="card" data-category="lifestyle">
+          <img loading="lazy" src="assets/img/p6.jpg" alt="Lifestyle 02">
+          <figcaption>Lifestyle 02</figcaption>
+        </figure>
+
+        <figure class="card" data-category="beauty">
+          <img loading="lazy" src="assets/img/p7.jpg" alt="Beauty 02">
+          <figcaption>Beauty 02</figcaption>
+        </figure>
+
+        <figure class="card" data-category="editorial">
+          <img loading="lazy" src="assets/img/p8.jpg" alt="Editorial 03">
+          <figcaption>Editorial 03</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Packs / Shop -->
+  <section class="section alt" id="packs">
+    <div class="container">
+      <div class="section-head">
+        <h2>Pacotes Exclusivos</h2>
+        <p>Conteúdos em alta resolução para uso pessoal. Compra segura por plataforma externa.</p>
+      </div>
+
+      <div class="packs">
+        <article class="pack">
+          <div class="pack-top">
+            <h3>Pack Editorial Primavera</h3>
+            <p class="pack-price">R$ 49,90</p>
+          </div>
+          <ul class="pack-list">
+            <li>25 fotos em alta resolução</li>
+            <li>Download imediato</li>
+            <li>Uso pessoal</li>
+          </ul>
+          <a class="btn btn-primary pack-btn" href="https://SEU-LINK-DE-VENDA.com" target="_blank">
+            Comprar pack
+          </a>
+          <p class="pack-note">Pagamento via Hotmart, Gumroad ou similar.</p>
+        </article>
+
+        <article class="pack">
+          <div class="pack-top">
+            <h3>Pack Beauty Studio</h3>
+            <p class="pack-price">R$ 69,90</p>
+          </div>
+          <ul class="pack-list">
+            <li>40 fotos em alta resolução</li>
+            <li>Bônus com 5 retratos</li>
+            <li>Download imediato</li>
+          </ul>
+          <a class="btn btn-primary pack-btn" href="https://SEU-LINK-DE-VENDA.com" target="_blank">
+            Comprar pack
+          </a>
+          <p class="pack-note">Link configurável no HTML.</p>
+        </article>
+
+        <article class="pack featured">
+          <div class="pack-badge">Mais vendido</div>
+          <div class="pack-top">
+            <h3>Assinatura Mensal VIP</h3>
+            <p class="pack-price">R$ 29,90/mês</p>
+          </div>
+          <ul class="pack-list">
+            <li>Novidades toda semana</li>
+            <li>Acesso antecipado</li>
+            <li>Pasta privada com senha</li>
+          </ul>
+          <a class="btn btn-dark pack-btn" href="https://SEU-LINK-DE-ASSINATURA.com" target="_blank">
+            Assinar agora
+          </a>
+          <p class="pack-note">Você pode usar uma área privada no Drive, Dropbox ou plataforma própria.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container about">
+      <div class="about-text">
+        <h2>Sobre</h2>
+        <p>
+          Escreva aqui uma bio curta e elegante. Fale sobre seu estilo,
+          trabalhos marcantes, cidades onde atua e o que você busca transmitir nas fotos.
+        </p>
+
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-num">8+</span>
+            <span class="stat-label">Editorais</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">120k</span>
+            <span class="stat-label">Seguidores</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">5</span>
+            <span class="stat-label">Anos de carreira</span>
+          </div>
+        </div>
+
+        <div class="about-cta">
+          <a class="btn btn-ghost" href="#contact">Trabalhe comigo</a>
+        </div>
+      </div>
+
+      <div class="about-photo">
+        <img loading="lazy" src="assets/img/p2.jpg" alt="Foto da modelo">
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section alt" id="contact">
+    <div class="container contact">
+      <div class="section-head">
+        <h2>Contato</h2>
+        <p>Para trabalhos, parcerias e perguntas sobre pacotes.</p>
+      </div>
+
+      <form class="contact-form" id="contactForm"
+            action="https://formspree.io/f/SEU_ENDPOINT"
+            method="POST">
+        <label>
+          Nome
+          <input type="text" name="name" required placeholder="Seu nome">
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" required placeholder="seuemail@exemplo.com">
+        </label>
+        <label>
+          Mensagem
+          <textarea name="message" rows="5" required placeholder="Escreva aqui"></textarea>
+        </label>
+
+        <button class="btn btn-primary" type="submit">
+          Enviar mensagem
+        </button>
+
+        <p class="form-note">
+          Se não quiser usar Formspree, troque o action por:
+          mailto:seuemail@email.com
+        </p>
+      </form>
+
+      <div class="contact-icons">
+        <a href="mailto:seuemail@email.com">
+          <i class="fa-regular fa-envelope"></i>
+          <span>Email</span>
+        </a>
+        <a href="https://instagram.com" target="_blank">
+          <i class="fa-brands fa-instagram"></i>
+          <span>Instagram</span>
+        </a>
+        <a href="https://wa.me/55SEUNUMERO" target="_blank">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Nome da Modelo. Todos os direitos reservados.</p>
+      <div class="footer-links">
+        <a href="#top">Topo</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#packs">Pacotes</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" aria-label="Fechar">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <img id="lightboxImg" alt="">
+    <p id="lightboxCaption"></p>
+
+    <button class="lightbox-nav prev" aria-label="Anterior">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="lightbox-nav next" aria-label="Próxima">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
