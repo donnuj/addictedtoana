@@ -1,0 +1,27 @@
+.container{
+  width:min(1120px, 92vw);
+  margin-inline:auto;
+}
+
+.section{
+  padding:76px 0;
+}
+
+.section.alt{
+  background:var(--bg-alt);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.section-head{
+  margin-bottom:22px;
+}
+.section-head h2{
+  font-size:clamp(1.6rem,2.6vw,2.2rem);
+  margin:0 0 8px 0;
+  letter-spacing:-0.02em;
+}
+.section-head p{
+  margin:0;
+  color:var(--muted);
+}

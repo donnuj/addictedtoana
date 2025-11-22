@@ -1,0 +1,16 @@
+:root{
+  --bg:#ffffff;
+  --bg-alt:#f7f7f8;
+  --text:#0a0a0a;
+  --muted:#6b6b6b;
+  --line:#e9e9ea;
+  --accent:#111111;
+  --radius:18px;
+  --shadow:0 12px 40px rgba(0,0,0,.06);
+}
+
+body{
+  font-family:Inter,system-ui,Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
