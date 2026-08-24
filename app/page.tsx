@@ -1,30 +1,33 @@
-import { HeroSection } from "@/components/ui/HeroSection";
-import { LeadForm } from "@/components/ui/LeadForm";
+import { ProfilePanel } from "@/components/ui/ProfilePanel";
+import { LinksPanel } from "@/components/ui/LinksPanel";
 import { WebPageSchema } from "@/components/seo/StructuredData";
-import { siteConfig } from "@/lib/config";
+import { profileData } from "@/lib/links";
 
 export default function Home() {
   return (
     <>
-      <WebPageSchema
-        title={siteConfig.name}
-        description={siteConfig.description}
-      />
-      <main>
-        <HeroSection />
+      <WebPageSchema title={profileData.name} description={profileData.bio} />
 
-        {/* Lead capture section */}
-        <section
-          id="contato"
-          className="mx-auto max-w-2xl px-6 py-24"
+      {/*
+        Mobile: coluna única
+        Desktop (lg+): split — esquerda sticky profile, direita scroll links
+      */}
+      <div className="min-h-[100dvh] lg:flex">
+
+        {/* Painel esquerdo — sticky no desktop */}
+        <div
+          className="lg:sticky lg:top-0 lg:h-[100dvh] lg:w-[42%] lg:flex-shrink-0"
+          style={{ background: "var(--panel-left)", borderRight: "1px solid rgba(255,255,255,0.05)" }}
         >
-          <LeadForm
-            title="Entre em contato"
-            buttonLabel="Enviar"
-            campaign="organico"
-          />
-        </section>
-      </main>
+          <ProfilePanel />
+        </div>
+
+        {/* Painel direito — scrollável */}
+        <div className="flex-1">
+          <LinksPanel />
+        </div>
+
+      </div>
     </>
   );
 }

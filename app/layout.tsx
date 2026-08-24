@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { buildMetadata } from "@/lib/metadata";
 import { GTMScript, GTMNoScript } from "@/components/analytics/GTM";
 import { ClarityScript } from "@/components/analytics/Clarity";
 import { CookieConsent } from "@/components/analytics/CookieConsent";
-import { WhatsAppButton } from "@/components/whatsapp/WhatsAppButton";
-import { OrganizationSchema } from "@/components/seo/StructuredData";
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -22,9 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    <html lang="en" className={spaceGrotesk.variable}>
       <head>
-        <OrganizationSchema />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -32,14 +29,13 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-white font-sans text-zinc-900 antialiased">
+      <body className="font-sans antialiased" style={{ background: "var(--bg)" }}>
         <GTMNoScript />
         <GTMScript />
         <ClarityScript />
 
         {children}
 
-        <WhatsAppButton />
         <CookieConsent />
       </body>
     </html>
