@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Takedowns — Addicted to Ana · Outubro 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #c026d3;
+    --accent-light: #f0abfc;
+    --accent-dark: #86198f;
+    --bg: #ffffff;
+    --surface: #f9fafb;
+    --border: #e5e7eb;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --shadow: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,.10), 0 2px 4px -1px rgba(0,0,0,.06);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  .cover {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 48px 0 40px;
+    border-bottom: 3px solid var(--accent);
+    margin-bottom: 48px;
+  }
+  .cover-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .cover h1 {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -.5px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .cover-meta strong { color: var(--text); }
+
+  section { margin-bottom: 52px; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .card-value {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .card-sub { font-size: 12px; color: var(--text-muted); }
+  .card.accent  { border-left: 3px solid var(--accent);  }
+  .card.danger  { border-left: 3px solid var(--danger);  }
+  .card.success { border-left: 3px solid var(--success); }
+  .card.info    { border-left: 3px solid var(--info);    }
+  .card.accent  .card-value { color: var(--accent-dark); }
+  .card.danger  .card-value { color: var(--danger);  }
+  .card.success .card-value { color: var(--success); }
+  .card.info    .card-value { color: var(--info);    }
+
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--border);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  thead th.num { text-align: right; }
+  tbody tr:nth-child(even) { background: #f3f4f6; }
+  tbody tr:hover { background: #ede9fe; }
+  tbody td { padding: 9px 14px; vertical-align: middle; }
+  tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .rank { font-weight: 700; color: var(--text-muted); }
+  .site-name { font-weight: 500; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+  .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge-low    { background: #fef3c7; color: #92400e; }
+  .badge-mid    { background: #dbeafe; color: #1e40af; }
+  .badge-high   { background: #d1fae5; color: #065f46; }
+
+  .bar-cell { min-width: 120px; }
+  .bar-bg { background: var(--border); border-radius: 3px; height: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; }
+
+  .eff-pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+  .eff-low    { background: #fef2f2; color: #b91c1c; }
+  .eff-medium { background: #fefce8; color: #a16207; }
+  .eff-high   { background: #f0fdf4; color: #166534; }
+
+  .note {
+    background: #fffbeb;
+    border-left: 3px solid var(--warning);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: #92400e;
+    margin-top: 16px;
+  }
+  .insight {
+    background: #f5f3ff;
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: #4c1d95;
+    margin-top: 12px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+    padding-top: 20px;
+    font-size: 11px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media print {
+    body { padding: 20px; max-width: 100%; }
+    .card, .chart-wrap, .table-wrap { break-inside: avoid; }
+    section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="cover-label">Relatório de Proteção de Conteúdo</div>
+  <h1>Takedowns, Derrubadas de Links<br>e Registros de Vazamentos</h1>
+  <div class="cover-meta">
+    <span><strong>Creator:</strong> Addicted to Ana</span>
+    <span><strong>Período:</strong> Outubro 2026</span>
+    <span><strong>Emitido em:</strong> 03 de Novembro de 2026</span>
+    <span><strong>Conta:</strong> #32428</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ RESUMO EXECUTIVO -->
+<section>
+  <div class="section-title">01 — Resumo Executivo · Outubro 2026</div>
+  <div class="metrics">
+    <div class="card accent">
+      <div class="card-label">Total Encontrado</div>
+      <div class="card-value">11.776</div>
+      <div class="card-sub">links/conteúdos identificados</div>
+    </div>
+    <div class="card success">
+      <div class="card-label">Delistados</div>
+      <div class="card-value">11.723</div>
+      <div class="card-sub">99,5% do total encontrado</div>
+    </div>
+    <div class="card info">
+      <div class="card-label">Removidos na Fonte</div>
+      <div class="card-value">73</div>
+      <div class="card-sub">0,6% de remoção efetiva</div>
+    </div>
+    <div class="card danger">
+      <div class="card-label">Sites Únicos</div>
+      <div class="card-value">1.167</div>
+      <div class="card-sub">domínios com conteúdo indevido</div>
+    </div>
+  </div>
+  <div class="insight">
+    <strong>Nota metodológica:</strong> "Delistado" significa remoção dos índices de busca (Google, Bing) via DMCA — o arquivo pode ainda existir no servidor de origem. "Removido na fonte" indica exclusão efetiva do servidor hospedeiro. A taxa de delistagem de 99,5% indica alta efetividade operacional do serviço de proteção.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ TOP SITES -->
+<section>
+  <div class="section-title">02 — Top Sites Infratores · Outubro 2026</div>
+  <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">Ranking por volume de conteúdo identificado em outubro. Barra proporcional ao maior infrator do mês.</p>
+
+  <!-- Horizontal bar chart top 10 -->
+  <div class="chart-wrap" style="margin-bottom:20px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;">Top 10 — Volume encontrado</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">fapello.com</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:100%;height:100%;background:var(--accent);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">4.085</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">cums.net</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:36.8%;height:100%;background:var(--accent);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">1.504</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">x-video.tube</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:10.7%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">436</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">picazor.com</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:10.3%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">421</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">thefap.net</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:6.7%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">272</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">nudostar.tv</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:5.9%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">240</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">leakedmodels.com</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:4.9%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">202</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">heavy-r.com</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:4.9%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">202</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">thothd.com</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:4.9%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">199</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:140px;font-size:12px;font-family:'SF Mono','Fira Code',monospace;text-align:right;color:var(--text);flex-shrink:0;">kompoz2.com</div>
+        <div style="flex:1;background:var(--border);border-radius:4px;height:20px;overflow:hidden;">
+          <div style="width:3.1%;height:100%;background:var(--accent-dark);border-radius:4px;display:flex;align-items:center;padding-left:8px;">
+            <span style="font-size:11px;font-weight:700;color:white;">125</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tabela completa top 20 -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Domínio</th>
+          <th class="num">Encontrados</th>
+          <th class="num">Removidos</th>
+          <th class="num">Delistados</th>
+          <th class="num">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="rank">1</td><td class="site-name">fapello.com</td><td class="num">4.085</td><td class="num">0</td><td class="num">4.085</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">2</td><td class="site-name">cums.net</td><td class="num">1.504</td><td class="num">0</td><td class="num">1.504</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">3</td><td class="site-name">x-video.tube</td><td class="num">436</td><td class="num">0</td><td class="num">436</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">4</td><td class="site-name">picazor.com</td><td class="num">421</td><td class="num">0</td><td class="num">421</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">5</td><td class="site-name">thefap.net</td><td class="num">272</td><td class="num">0</td><td class="num">272</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">6</td><td class="site-name">nudostar.tv</td><td class="num">240</td><td class="num">0</td><td class="num">240</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">7</td><td class="site-name">leakedmodels.com</td><td class="num">202</td><td class="num">0</td><td class="num">202</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">8</td><td class="site-name">heavy-r.com</td><td class="num">202</td><td class="num">0</td><td class="num">202</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">9</td><td class="site-name">thothd.com</td><td class="num">199</td><td class="num">0</td><td class="num">199</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">10</td><td class="site-name">kompoz2.com</td><td class="num">125</td><td class="num">0</td><td class="num">125</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">11</td><td class="site-name">eromeporn.com</td><td class="num">102</td><td class="num">0</td><td class="num">102</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">12</td><td class="site-name">nudogram.com</td><td class="num">94</td><td class="num">0</td><td class="num">94</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">13</td><td class="site-name">masterfap.net</td><td class="num">84</td><td class="num">0</td><td class="num">84</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">14</td><td class="site-name">viralxxxporn.com</td><td class="num">81</td><td class="num">0</td><td class="num">81</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">15</td><td class="site-name">leakgallery.com</td><td class="num">78</td><td class="num">0</td><td class="num">78</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">16</td><td class="site-name">xpaja.net</td><td class="num">62</td><td class="num">0</td><td class="num">62</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">17</td><td class="site-name">thefappening.plus</td><td class="num">60</td><td class="num">0</td><td class="num">60</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">18</td><td class="site-name">porntn.com</td><td class="num">55</td><td class="num">0</td><td class="num">55</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">19</td><td class="site-name">cnnamador.com</td><td class="num">43</td><td class="num">0</td><td class="num">43</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr><td class="rank">20</td><td class="site-name">twpornstars.com</td><td class="num">40</td><td class="num">0</td><td class="num">40</td><td class="num"><span class="badge badge-low">Apenas delistado</span></td></tr>
+        <tr style="background:#f5f3ff;font-weight:700;">
+          <td colspan="2">TOTAL OUTUBRO 2026</td>
+          <td class="num">11.776</td>
+          <td class="num">73</td>
+          <td class="num">11.723</td>
+          <td class="num"><span class="eff-pill eff-high">99,5% delistado</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight">
+    <strong>fapello.com</strong> e <strong>cums.net</strong> respondem por <strong>47,5%</strong> de todo o volume do mês (5.589 de 11.776). Nenhum dos dois aceitou remoção na fonte em outubro — toda a proteção foi via delistagem.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ EFETIVIDADE -->
+<section>
+  <div class="section-title">03 — Análise de Efetividade · Outubro 2026</div>
+
+  <div class="metrics" style="grid-template-columns:repeat(3,1fr);">
+    <div class="card success">
+      <div class="card-label">Taxa de Delistagem</div>
+      <div class="card-value">99,5%</div>
+      <div class="card-sub">11.723 de 11.776 conteúdos</div>
+    </div>
+    <div class="card info">
+      <div class="card-label">Remoção na Fonte</div>
+      <div class="card-value">0,6%</div>
+      <div class="card-sub">73 removidos efetivamente</div>
+    </div>
+    <div class="card accent">
+      <div class="card-label">Domínios Monitorados</div>
+      <div class="card-value">1.167</div>
+      <div class="card-sub">sites únicos em outubro</div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:20px;">
+    A baixa taxa de remoção na fonte (0,6%) é característica estrutural dos sites de conteúdo adulto dedicados — eles não cooperam com DMCA direto. A estratégia de delistagem (99,5%) é a mais efetiva disponível para este perfil de infrator, pois elimina o tráfego orgânico via busca mesmo sem remover o arquivo do servidor.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ ANALYTICS DO SITE -->
+<section>
+  <div class="section-title">04 — Analytics do Site · addictedtoana.com</div>
+  <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">Fonte: Cloudflare Analytics · 04 Out 2026, 14h41 – 03 Nov 2026, 14h41 (BRT)</p>
+
+  <div class="metrics">
+    <div class="card accent">
+      <div class="card-label">Total de Requisições</div>
+      <div class="card-value">733,9k</div>
+      <div class="card-sub">nos últimos 30 dias</div>
+    </div>
+    <div class="card info">
+      <div class="card-label">Visitas Únicas</div>
+      <div class="card-value">26,1k</div>
+      <div class="card-sub">~28 req/visita em média</div>
+    </div>
+    <div class="card success">
+      <div class="card-label">Transferência de Dados</div>
+      <div class="card-value">24,25 GB</div>
+      <div class="card-sub">tráfego total servido</div>
+    </div>
+    <div class="card danger">
+      <div class="card-label">Erros 5xx</div>
+      <div class="card-value">0,00%</div>
+      <div class="card-sub">infraestrutura estável</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dispositivo</th><th class="num">Requisições</th><th class="num">%</th></tr></thead>
+        <tbody>
+          <tr><td>Mobile</td><td class="num">621.68k</td><td class="num"><span class="eff-pill eff-high">84,7%</span></td></tr>
+          <tr><td>Desktop</td><td class="num">109.15k</td><td class="num"><span class="eff-pill eff-medium">14,9%</span></td></tr>
+          <tr><td>Tablet</td><td class="num">3.08k</td><td class="num">0,4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sistema Operacional</th><th class="num">Requisições</th><th class="num">%</th></tr></thead>
+        <tbody>
+          <tr><td>iOS</td><td class="num">266.57k</td><td class="num">36,3%</td></tr>
+          <tr><td>Desconhecido/Outros</td><td class="num">232.71k</td><td class="num">31,7%</td></tr>
+          <tr><td>Android</td><td class="num">169.31k</td><td class="num">23,1%</td></tr>
+          <tr><td>Windows</td><td class="num">48.2k</td><td class="num">6,6%</td></tr>
+          <tr><td>MacOSX</td><td class="num">13.61k</td><td class="num">1,9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;" class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>País</th>
+          <th class="num">Requisições</th>
+          <th class="num">%</th>
+          <th style="min-width:150px">Volume relativo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Estados Unidos</strong></td><td class="num">500.28k</td><td class="num"><strong>68,2%</strong></td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>México</td><td class="num">91.09k</td><td class="num">12,4%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:18.2%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>Canadá</td><td class="num">36.51k</td><td class="num">5,0%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:7.3%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>Brasil</td><td class="num">19.95k</td><td class="num">2,7%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:4.0%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>França</td><td class="num">13.87k</td><td class="num">1,9%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:2.8%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>Países Baixos</td><td class="num">8.71k</td><td class="num">1,2%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:1.7%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>Bélgica</td><td class="num">6.98k</td><td class="num">1,0%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:1.4%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>Austrália</td><td class="num">3.98k</td><td class="num">0,5%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:0.8%;background:var(--accent)"></div></div></td></tr>
+        <tr><td>Reino Unido</td><td class="num">3.53k</td><td class="num">0,5%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:0.7%;background:var(--accent)"></div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Código HTTP</th><th class="num">Volume</th><th class="num">%</th></tr></thead>
+        <tbody>
+          <tr><td>200 OK</td><td class="num">438.93k</td><td class="num"><span class="eff-pill eff-high">59,8%</span></td></tr>
+          <tr><td>204 No Content</td><td class="num">114.5k</td><td class="num">15,6%</td></tr>
+          <tr><td style="color:var(--danger)">403 Forbidden</td><td class="num">97.94k</td><td class="num"><span class="eff-pill eff-low">13,3%</span></td></tr>
+          <tr><td style="color:var(--warning)">404 Not Found</td><td class="num">46.65k</td><td class="num">6,4%</td></tr>
+          <tr><td>304 Not Modified</td><td class="num">23.07k</td><td class="num">3,1%</td></tr>
+          <tr><td>301 Moved Permanently</td><td class="num">12.16k</td><td class="num">1,7%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Top Paths</th><th class="num">Req.</th></tr></thead>
+        <tbody>
+          <tr><td class="site-name">/</td><td class="num">58.88k</td></tr>
+          <tr><td class="site-name">/images/gate.jpg</td><td class="num">30.98k</td></tr>
+          <tr><td class="site-name">/links</td><td class="num">25.84k</td></tr>
+          <tr><td class="site-name">/favicon.ico</td><td class="num">27.35k</td></tr>
+          <tr><td class="site-name">/cdn-cgi/rum ¹</td><td class="num">114.53k</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">¹ /cdn-cgi/rum é monitoramento interno do Cloudflare, não representa visitas reais.</div>
+
+  <div class="insight">
+    <strong>Perfil da audiência:</strong> 84,7% mobile (iOS + Android), 68,2% dos EUA. Os 403 Forbidden (13,3%) indicam bloqueio ativo de bots/scrapers pela Cloudflare. Cache hit de 49,6% — margem de otimização disponível para reduzir latência.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ REGISTRO DE SERVIÇOS -->
+<section>
+  <div class="section-title">05 — Registro de Serviços e Ocorrências · Outubro 2026</div>
+
+  <div style="position:relative;padding-left:28px;border-left:2px solid var(--border);">
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid white;box-shadow:0 0 0 2px var(--accent);"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">02 Out 2026</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:4px;">Derrubada de perfis no X (Twitter)</div>
+      <div style="font-size:13px;color:var(--text-muted);">3 requisições enviadas para remoção de perfis infratores no X.</div>
+    </div>
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid white;box-shadow:0 0 0 2px var(--accent);"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">03 Out 2026</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:8px;">Takedown de links vazados no X/Twitter — 5 URLs</div>
+      <div style="background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:12px 14px;font-size:11px;font-family:'SF Mono','Fira Code',monospace;line-height:1.8;color:var(--text-muted);">
+        t.co/DQPoHRolQb<br>
+        x.com/eliannilope/status/2106503004476027342<br>
+        x.com/margotguq/status/2106442691051462740<br>
+        x.com/maiwenn_lfr/status/2106557208129663484<br>
+        x.com/lauryn_spenc10/status/2106540730231529747
+      </div>
+    </div>
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--warning);border:2px solid white;box-shadow:0 0 0 2px var(--warning);"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">04 Out 2026</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:4px;">Suporte Meta — Bloqueio de perfil (1ª ocorrência)</div>
+      <div style="font-size:13px;color:var(--text-muted);">Requisição de suporte com Meta por bloqueio do perfil da cliente.</div>
+    </div>
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:#6366f1;border:2px solid white;box-shadow:0 0 0 2px #6366f1;"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">07 Out 2026</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:4px;">Resposta da Meta repassada à cliente</div>
+      <div style="font-size:13px;color:var(--text-muted);">Meta reportou falta de pagamento como causa do bloqueio.</div>
+    </div>
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--success);border:2px solid white;box-shadow:0 0 0 2px var(--success);"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">08 Out 2026 — Resolvido</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:4px;">Perfil Meta liberado</div>
+      <div style="font-size:13px;color:var(--text-muted);">Pagamento regularizado, suporte pago da Meta ativado. Resolução no mesmo dia.</div>
+    </div>
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--warning);border:2px solid white;box-shadow:0 0 0 2px var(--warning);"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">14 Out 2026</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:4px;">Suporte Meta — Bloqueio de perfil (2ª ocorrência)</div>
+      <div style="font-size:13px;color:var(--text-muted);">Nova requisição de suporte Meta por bloqueio do perfil.</div>
+    </div>
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:#6366f1;border:2px solid white;box-shadow:0 0 0 2px #6366f1;"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">17 Out 2026</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:4px;">Resposta da Meta repassada à cliente</div>
+      <div style="font-size:13px;color:var(--text-muted);">Acompanhamento em andamento.</div>
+    </div>
+
+    <div style="margin-bottom:28px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--danger);border:2px solid white;box-shadow:0 0 0 2px var(--danger);"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">28 Out 2026 — Achado relevante</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:8px;">Rede de vazamento identificada: X + Telegram + Discord</div>
+      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:12px 14px;font-size:13px;color:#7f1d1d;line-height:1.6;">
+        Identificado perfil no X vinculado a canais no Telegram e Discord comercializando pacotes de conteúdo vazado de múltiplas personalidades, incluindo a cliente. Requisição de derrubada de todos os perfis/canais enviada no mesmo dia. <strong>Status: aguardando.</strong>
+      </div>
+    </div>
+
+    <div style="margin-bottom:8px;position:relative;">
+      <div style="position:absolute;left:-35px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid white;box-shadow:0 0 0 2px var(--accent);"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">30 Out 2026</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:8px;">Takedown Erome + Thothub — 10 URLs via Natália</div>
+      <div style="background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:12px 14px;font-size:11px;font-family:'SF Mono','Fira Code',monospace;line-height:1.8;color:var(--text-muted);margin-bottom:10px;">
+        es.erome.com/a/2AOJQCsh &nbsp;&nbsp; es.erome.com/a/Sn7G8k1t<br>
+        es.erome.com/a/2ZIig6Kc &nbsp;&nbsp; es.erome.com/a/E2BHIO9X<br>
+        es.erome.com/a/DzpgCtNc &nbsp;&nbsp; es.erome.com/a/M8kL7h9s<br>
+        es.erome.com/a/RBDZiSCr &nbsp;&nbsp; es.erome.com/a/eARijLa6<br>
+        thothub.to/videos/1586475/anattraction8/<br>
+        thothub.to/videos/1593673/anattraction-fit-girl-fucked/
+      </div>
+      <div style="background:#fffbeb;border-left:3px solid var(--warning);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12px;color:#92400e;line-height:1.6;">
+        <strong>Nota técnica:</strong> Sites como Erome operam há mais de 8 meses com múltiplos servidores distribuídos globalmente. Ao derrubar uma URL com domínio <code>.fr</code>, o conteúdo é reativado sob <code>.us</code> ou outro TLD. A delistagem é a abordagem mais efetiva, pois elimina o tráfego orgânico mesmo sem remoção da fonte.
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:28px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">Processos e Ferramentas Utilizados</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span style="background:#f5f3ff;color:#6d28d9;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #ddd6fe;">Branditscan</span>
+      <span style="background:#f5f3ff;color:#6d28d9;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #ddd6fe;">Suporte X (Twitter)</span>
+      <span style="background:#f5f3ff;color:#6d28d9;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #ddd6fe;">Suporte OnlyFans</span>
+      <span style="background:#f5f3ff;color:#6d28d9;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #ddd6fe;">Suporte Telegram</span>
+      <span style="background:#f5f3ff;color:#6d28d9;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #ddd6fe;">Suporte Discord</span>
+      <span style="background:#fef3c7;color:#92400e;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #fde68a;">Contato direto com DMCA</span>
+      <span style="background:#fef3c7;color:#92400e;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #fde68a;">Extra-Judiciais</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ PERFIS PROTEGIDOS -->
+<section>
+  <div class="section-title">06 — Perfis Oficiais Monitorados e Protegidos</div>
+  <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">Perfis legítimos da cliente sob monitoramento ativo de proteção de marca e conteúdo.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+    <div class="card" style="border-left:3px solid #E1306C;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:16px;">📸</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#E1306C;">Instagram</span>
+      </div>
+      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:500;margin-bottom:2px;">@add1ctedtoana</div>
+      <div style="font-size:11px;color:var(--text-muted);">instagram.com/add1ctedtoana</div>
+    </div>
+    <div class="card" style="border-left:3px solid #E1306C;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:16px;">📸</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#E1306C;">Instagram</span>
+      </div>
+      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:500;margin-bottom:2px;">@thatcringygal</div>
+      <div style="font-size:11px;color:var(--text-muted);">instagram.com/thatcringygal</div>
+    </div>
+    <div class="card" style="border-left:3px solid #FF4500;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:16px;">🤖</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#FF4500;">Reddit</span>
+      </div>
+      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:500;margin-bottom:2px;">u/Addictedtoana</div>
+      <div style="font-size:11px;color:var(--text-muted);">reddit.com/user/Addictedtoana</div>
+    </div>
+    <div class="card" style="border-left:3px solid #010101;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:16px;">🎵</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#010101;">TikTok</span>
+      </div>
+      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:500;margin-bottom:2px;">@addictiveanna</div>
+      <div style="font-size:11px;color:var(--text-muted);">tiktok.com/@addictiveanna</div>
+    </div>
+    <div class="card" style="border-left:3px solid #1d9bf0;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:16px;">𝕏</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1d9bf0;">X · Twitter</span>
+      </div>
+      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:500;margin-bottom:2px;">@pancakeenergy</div>
+      <div style="font-size:11px;color:var(--text-muted);">x.com/pancakeenergy</div>
+    </div>
+    <div class="card" style="border-left:3px solid #1565c0;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:16px;">🔵</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1565c0;">Fansly</span>
+      </div>
+      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:500;margin-bottom:2px;">addictveanna</div>
+      <div style="font-size:11px;color:var(--text-muted);">fansly.com/addictveanna</div>
+    </div>
+    <div class="card" style="border-left:3px solid #00AFF0;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:16px;">💙</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#00AFF0;">OnlyFans</span>
+      </div>
+      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:500;margin-bottom:2px;">anattraction</div>
+      <div style="font-size:11px;color:var(--text-muted);">onlyfans.com/anattraction</div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:16px;">
+    Qualquer conteúdo identificado nestas plataformas que não seja originado diretamente destes perfis deve ser tratado como infração e encaminhado para takedown imediato.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ RESPONSABILIDADE -->
+<section>
+  <div class="section-title">07 — Responsabilidade, Segurança e Gestão do Site</div>
+  <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px;">Escopo de atuação da Impulse Digital Marketing na proteção e operação digital da cliente.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;box-shadow:var(--shadow);">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;">Responsabilidades Assumidas</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--success);flex-shrink:0;">✓</span><span>Monitoramento contínuo de vazamentos e distribuição não autorizada de conteúdo</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--success);flex-shrink:0;">✓</span><span>Emissão e acompanhamento de requisições DMCA junto a plataformas e hosts</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--success);flex-shrink:0;">✓</span><span>Suporte e intermediação com Meta, X, OnlyFans, Telegram e Discord</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--success);flex-shrink:0;">✓</span><span>Derrubada de perfis e canais infratores via vias extra-judiciais quando necessário</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--success);flex-shrink:0;">✓</span><span>Manutenção, atualização e monitoramento de performance do site addictedtoana.com</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--success);flex-shrink:0;">✓</span><span>Repasse de comunicados e respostas das plataformas à cliente</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--success);flex-shrink:0;">✓</span><span>Emissão mensal de relatório de proteção de conteúdo e analytics</span></li>
+      </ul>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;box-shadow:var(--shadow);">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;">Camadas de Segurança Ativas</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--info);flex-shrink:0;">⬡</span><span><strong>Cloudflare (WAF + Proxy)</strong> — proteção contra bots, DDoS e scraping. 13,3% das requisições bloqueadas automaticamente em outubro.</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--info);flex-shrink:0;">⬡</span><span><strong>Branditscan</strong> — varredura automatizada em milhares de domínios. Base para as 11.776 ocorrências identificadas em outubro.</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--info);flex-shrink:0;">⬡</span><span><strong>Delistagem DMCA</strong> — remoção dos índices de busca com 99,5% de cobertura em outubro.</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--info);flex-shrink:0;">⬡</span><span><strong>Monitoramento de redes sociais</strong> — rastreamento ativo de perfis infratores no X, Telegram e Discord.</span></li>
+        <li style="display:flex;gap:10px;font-size:13px;"><span style="color:var(--info);flex-shrink:0;">⬡</span><span><strong>Infraestrutura HTTP/3 + CDN global</strong> — 0,00% de erros 5xx. Site com disponibilidade total em outubro.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;box-shadow:var(--shadow);">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;">Gestão e Atualizações do Site — addictedtoana.com</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">
+      <div style="text-align:center;padding:16px;background:white;border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:22px;font-weight:700;color:var(--accent);letter-spacing:-1px;">733,9k</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">requisições atendidas no período</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:white;border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:22px;font-weight:700;color:var(--success);letter-spacing:-1px;">0,00%</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">taxa de erros de servidor (5xx)</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:white;border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:22px;font-weight:700;color:var(--info);letter-spacing:-1px;">26,1k</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">visitas únicas no período</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.8;border-top:1px solid var(--border);padding-top:16px;">
+      A Impulse Digital Marketing é responsável pela manutenção técnica e operacional do site <strong>addictedtoana.com</strong>, incluindo: atualizações de conteúdo e links conforme requisição da cliente, monitoramento de disponibilidade e performance via Cloudflare, otimização de cache e infraestrutura de entrega (CDN), e resposta a incidentes técnicos. Todas as requisições de alteração no site são registradas e executadas mediante solicitação formal da cliente ou de sua representante autorizada.
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:16px 18px;font-size:12px;color:var(--text-muted);line-height:1.7;">
+    <strong style="color:var(--text);">Confidencialidade:</strong> Este relatório contém informações operacionais sensíveis sobre estratégias de proteção de conteúdo, dados de tráfego e registros de ocorrências. Seu conteúdo é de uso exclusivo da cliente e da Impulse Digital Marketing, sendo vedada sua reprodução ou compartilhamento com terceiros não autorizados.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FOOTER -->
+<footer>
+  <span>Addicted to Ana · Relatório de Proteção de Conteúdo · Conta #32428 · Outubro 2026</span>
+  <span>Impulse Digital Marketing · Emitido em 03/11/2026</span>
+</footer>
+
+</body>
+</html>
